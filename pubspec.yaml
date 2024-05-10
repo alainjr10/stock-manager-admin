@@ -26,6 +26,8 @@ dependencies:
   flutter_hooks: ^0.20.0
   hooks_riverpod: ^2.3.8
   riverpod_annotation:
+  data_table_2: ^2.5.12
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

@@ -54,9 +54,9 @@ class StockManCustomTheme {
           ),
       appBarTheme: AppBarTheme.of(context).copyWith(
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarBrightness: Brightness.light,
-          statusBarIconBrightness: Brightness.dark,
-          statusBarColor: Colors.white,
+          statusBarBrightness: Brightness.dark,
+          statusBarIconBrightness: Brightness.light,
+          statusBarColor: Color(0xFF111113),
         ),
         backgroundColor: kPrimaryColor,
         foregroundColor: kSecondaryColor,
@@ -66,6 +66,10 @@ class StockManCustomTheme {
           size: 32,
           weight: 700,
         ),
+      ),
+      drawerTheme: DrawerTheme.of(context).copyWith(
+        elevation: 0,
+        backgroundColor: const Color(0xFF111113),
       ),
       iconButtonTheme: IconButtonThemeData(
         style: ButtonStyle(
