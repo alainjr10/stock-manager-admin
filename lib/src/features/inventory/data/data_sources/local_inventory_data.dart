@@ -40,26 +40,6 @@ class LocalInventoryData {
       dateModified: DateTime.now(),
       expiryDate: DateTime(2025, 05, 28),
     ),
-    Product(
-      productId: "2",
-      productName: "Office Table",
-      costPrice: 60000,
-      sellingPrice: 75000,
-      availableQty: 27,
-      dateAdded: DateTime.now(),
-      dateModified: DateTime.now(),
-      expiryDate: DateTime(2029, 2, 04),
-    ),
-    Product(
-      productId: "2",
-      productName: "Office Table",
-      costPrice: 60000,
-      sellingPrice: 75000,
-      availableQty: 27,
-      dateAdded: DateTime.now(),
-      dateModified: DateTime.now(),
-      expiryDate: DateTime(2029, 2, 04),
-    ),
   ];
 }
 

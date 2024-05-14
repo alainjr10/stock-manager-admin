@@ -13,6 +13,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItems = ref.watch(itemsToSellNotifierProvider);
+    final selectableRows = ref.watch(isSelectableRows);
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(),
@@ -135,12 +136,14 @@ class HomeScreen extends ConsumerWidget {
                 data: (products) {
                   return DataTable2(
                     columnSpacing: 24,
-                    horizontalMargin: 12,
+                    horizontalMargin: 8,
                     minWidth: 600,
                     dividerThickness: 0.25,
                     headingCheckboxTheme: context.theme.checkboxTheme,
                     datarowCheckboxTheme: context.theme.checkboxTheme,
                     checkboxHorizontalMargin: 0,
+                    fixedLeftColumns: 1,
+                    smRatio: 0.5,
                     onSelectAll: (value) {
                       ref
                           .read(itemsToSellNotifierProvider.notifier)
@@ -178,7 +181,18 @@ class HomeScreen extends ConsumerWidget {
                       for (Product product in products)
                         DataRow(
                           selected: selectedItems.contains(product),
-                          onSelectChanged: (value) {
+                          onSelectChanged: !selectableRows
+                              ? null
+                              : (value) {
+                                  ref
+                                      .read(
+                                          itemsToSellNotifierProvider.notifier)
+                                      .toggleSelection(product);
+                                },
+                          onLongPress: () {
+                            ref
+                                .read(isSelectableRows.notifier)
+                                .update((state) => true);
                             ref
                                 .read(itemsToSellNotifierProvider.notifier)
                                 .toggleSelection(product);

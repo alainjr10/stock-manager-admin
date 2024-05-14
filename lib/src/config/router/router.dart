@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:stock_manager_admin/src/features/add_item/presentation/screens/add_item_scrn.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/screens/homescreen.dart';
+import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
+import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 part 'router.g.dart';
 
 @riverpod
@@ -17,6 +19,18 @@ GoRouter router(RouterRef ref) {
         path: '/',
         builder: (context, state) {
           return const HomeScreen();
+        },
+        onExit: (context, state) {
+          'Exiting HomeScreen'.log();
+          if (ref.watch(isSelectableRows)) {
+            ref.read(itemsToSellNotifierProvider.notifier).clearProducts();
+            ref.read(isSelectableRows.notifier).update((state) => false);
+            'dont pop out now'.log();
+            return false;
+          } else {
+            'now pop out'.log();
+            return true;
+          }
         },
         routes: [
           GoRoute(

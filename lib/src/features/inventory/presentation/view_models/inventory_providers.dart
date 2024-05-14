@@ -1,8 +1,11 @@
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:stock_manager_admin/src/features/inventory/data/data_sources/local_inventory_data.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 part 'inventory_providers.g.dart';
+
+final isSelectableRows = StateProvider.autoDispose<bool>((ref) => false);
 
 @Riverpod(keepAlive: false)
 FutureOr<List<Product>> getInventoryProducts(GetInventoryProductsRef ref) {
