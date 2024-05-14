@@ -1,12 +1,12 @@
-import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
+// import 'package:riverpod_annotation/riverpod_annotation.dart';
+// import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
 
-class AddItemLocalData {
-  Future<void> addItem(Product products) async {
-    // Add sales to local database
-    await Future.delayed(const Duration(milliseconds: 2500));
-    // await Future.error("error");
-  }
-}
+// class AddItemLocalData {
+//   Future<void> addItem(Product products) async {
+//     // Add sales to local database
+//     await Future.delayed(const Duration(milliseconds: 2500));
+//     // await Future.error("error");
+//   }
+// }
 
-final addSalesRepoProvider = Provider((ref) => AddItemLocalData());
+// final addSalesRepoProvider = Provider((ref) => AddItemLocalData());

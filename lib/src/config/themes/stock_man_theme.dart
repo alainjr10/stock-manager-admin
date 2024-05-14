@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:stock_manager_admin/src/utils/constants/constants.dart';
+import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 
 class StockManCustomTheme {
   static ThemeData themeData(bool isDarkMode, BuildContext context) {
@@ -61,9 +62,10 @@ class StockManCustomTheme {
         backgroundColor: kPrimaryColor,
         foregroundColor: kSecondaryColor,
         elevation: 0,
+        titleTextStyle: context.titleMedium.secondaryColor,
         actionsIconTheme: const IconThemeData(
           color: kSecondaryColor,
-          size: 32,
+          size: 28,
           weight: 700,
         ),
       ),
@@ -94,19 +96,11 @@ class StockManCustomTheme {
         ),
       ),
 
-      // dialogTheme: DialogTheme.of(context).copyWith(
-      //   backgroundColor: kPrimaryColor,
-      //   titleTextStyle: GoogleFonts.poppins().copyWith(
-      //     color: kSecondaryColor,
-      //     fontSize: 20,
-      //     fontWeight: FontWeight.w600,
-      //   ),
-      //   contentTextStyle: GoogleFonts.poppins().copyWith(
-      //     color: kSecondaryColor,
-      //     fontSize: 16,
-      //     fontWeight: FontWeight.w400,
-      //   ),
-      // ),
+      dialogTheme: DialogTheme.of(context).copyWith(
+        backgroundColor: kPrimaryColor,
+        titleTextStyle: context.titleMedium.secondaryColor.bold700,
+        contentTextStyle: context.bodyMedium.secondaryColor,
+      ),
 
       datePickerTheme: DatePickerTheme.of(context).copyWith(
         backgroundColor: kPrimaryColor,

@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/common/widgets/buttons.dart';
 import 'package:stock_manager_admin/src/features/add_item/presentation/view_models/add_item_providers.dart';
+import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
+import 'package:stock_manager_admin/src/features/inventory/presentation/widgets/product_details_tile_widget.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 
 class ConfirmItemDetails extends ConsumerWidget {
@@ -11,7 +13,7 @@ class ConfirmItemDetails extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.sizeOf(context);
-    ref.listen(addItemNotifierProvider, (_, state) async {
+    ref.listen(productCrudNotifierProvider, (_, state) async {
       if (!state.hasError && !state.isLoading) {
         'product added successfully'.log();
         'Successfully added product!!!'.showInfoToast;
@@ -67,12 +69,14 @@ class ConfirmItemDetails extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: ref.watch(addItemNotifierProvider).maybeWhen(
+            child: ref.watch(productCrudNotifierProvider).maybeWhen(
                   orElse: () {
                     return MainBtns(
                       size: size,
                       onPressed: () {
-                        ref.read(addItemNotifierProvider.notifier).addItem(
+                        ref
+                            .read(productCrudNotifierProvider.notifier)
+                            .addProduct(
                               selectedProduct!,
                             );
                       },
@@ -86,45 +90,6 @@ class ConfirmItemDetails extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class ItemDetailsTileDivider extends StatelessWidget {
-  const ItemDetailsTileDivider({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Divider(
-      color: context.theme.disabledColor,
-      thickness: 0.25,
-      height: 30,
-    );
-  }
-}
-
-class ItemDetailsTile extends StatelessWidget {
-  const ItemDetailsTile({
-    super.key,
-    required this.label,
-    required this.value,
-  });
-  final String label;
-  final String value;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("$label: ", style: context.bodySmall),
-        Text(
-          value,
-          style: context.bodyMedium,
-        ),
-      ],
     );
   }
 }

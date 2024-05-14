@@ -1,11 +1,36 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
+import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 
 class LocalInventoryData {
   Future<List<Product>> getInventoryProducts() async {
     await Future.delayed(const Duration(milliseconds: 2500));
     // return Future.error("error");
     return availableInventory;
+  }
+
+  Future<Product> getProductById(String productId) async {
+    await Future.delayed(const Duration(milliseconds: 2500));
+    return availableInventory
+        .firstWhere((element) => element.productId == productId);
+  }
+
+  Future<void> addProduct(Product product) async {
+    await Future.delayed(const Duration(milliseconds: 2500));
+    availableInventory.add(product);
+  }
+
+  Future<void> updateProduct(Product product) async {
+    await Future.delayed(const Duration(milliseconds: 2500));
+    final index = availableInventory
+        .indexWhere((element) => element.productId == product.productId);
+    availableInventory[index] = product;
+    'updated product is: ${availableInventory[index].toString()}'.log();
+  }
+
+  Future<void> deleteProduct(String productId) async {
+    await Future.delayed(const Duration(milliseconds: 2500));
+    availableInventory.removeWhere((element) => element.productId == productId);
   }
 
   List<Product> availableInventory = [
@@ -43,4 +68,4 @@ class LocalInventoryData {
   ];
 }
 
-final localInventoryProvider = Provider((ref) => LocalInventoryData());
+final productsInventoryProvider = Provider((ref) => LocalInventoryData());

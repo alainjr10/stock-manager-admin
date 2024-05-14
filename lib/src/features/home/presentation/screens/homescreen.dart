@@ -2,6 +2,7 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
 import 'package:stock_manager_admin/src/utils/constants/constants.dart';
@@ -73,12 +74,13 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Center(
+            Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: [
                   Text(
                     'Home Screen',
+                    style: context.bodyMedium,
                   ),
                 ],
               ),
@@ -90,8 +92,8 @@ class HomeScreen extends ConsumerWidget {
                 Text("Products in Inventory", style: context.titleSmall.bold),
                 IconButton(
                   onPressed: () {
-                    ref.invalidate(getInventoryProductsProvider);
-                    ref.read(getInventoryProductsProvider);
+                    ref.invalidate(productCrudNotifierProvider);
+                    ref.read(productCrudNotifierProvider);
                   },
                   icon: const Icon(Icons.refresh_outlined),
                 ),
@@ -99,8 +101,8 @@ class HomeScreen extends ConsumerWidget {
             ),
             8.vGap,
             SizedBox(
-              height: size.height * 0.7,
-              child: ref.watch(getInventoryProductsProvider).when(
+              height: size.height * 0.45,
+              child: ref.watch(productCrudNotifierProvider).when(
                 error: (error, stackTrace) {
                   return Center(
                     child: Column(
@@ -109,8 +111,8 @@ class HomeScreen extends ConsumerWidget {
                         const Text("An error occured loading products"),
                         TextButton.icon(
                           onPressed: () {
-                            ref.invalidate(getInventoryProductsProvider);
-                            ref.read(getInventoryProductsProvider);
+                            ref.invalidate(productCrudNotifierProvider);
+                            ref.read(productCrudNotifierProvider);
                           },
                           icon: const Icon(Icons.refresh),
                           label: const Text("Refresh"),
@@ -120,18 +122,7 @@ class HomeScreen extends ConsumerWidget {
                   );
                 },
                 loading: () {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text("Fetching Products"),
-                        8.vGap,
-                        CircularProgressIndicator.adaptive(
-                          backgroundColor: context.colorScheme.secondary,
-                        ),
-                      ],
-                    ),
-                  );
+                  return const CenterLoadingWidget(label: "Fetching Products");
                 },
                 data: (products) {
                   return DataTable2(
@@ -203,6 +194,10 @@ class HomeScreen extends ConsumerWidget {
                                 product.productName,
                                 style: context.bodySmall.secondaryColor,
                               ),
+                              onTap: () {
+                                context
+                                    .go('/item_details/${product.productId}');
+                              },
                             ),
                             DataCell(
                               Text(
