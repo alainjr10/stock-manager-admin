@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension ThemeExtension on BuildContext {
   ThemeData get theme => Theme.of(this);
@@ -16,11 +15,4 @@ extension Log on String {
   void log() {
     dev.log(toString());
   }
-}
-
-extension Spacing on num {
-  // vertical spacing
-  SizedBox get vGap => SizedBox(height: toDouble().h);
-  SizedBox get hGap => SizedBox(width: toDouble().w);
-  SizedBox get gap => const SizedBox.shrink();
 }

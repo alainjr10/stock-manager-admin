@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:stock_manager_admin/src/features/add_item/presentation/screens/add_item_scrn.dart';
+import 'package:stock_manager_admin/src/features/add_item/presentation/screens/confirm_item_details.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/screens/homescreen.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
@@ -38,6 +39,14 @@ GoRouter router(RouterRef ref) {
             builder: (context, state) {
               return const AddItemScreen();
             },
+            routes: [
+              GoRoute(
+                path: 'confirm_item_details',
+                builder: (context, state) {
+                  return const ConfirmItemDetails();
+                },
+              ),
+            ],
           ),
         ],
       ),

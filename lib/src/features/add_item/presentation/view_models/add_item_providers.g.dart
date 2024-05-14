@@ -6,21 +6,21 @@ part of 'add_item_providers.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$addSalesNotifierHash() => r'ae7824a2b2034767d57ee45f8453739a00cd4f76';
+String _$addItemNotifierHash() => r'a31efb371ca5754456e2c6170ca94a7c1f7a8e4f';
 
-/// See also [AddSalesNotifier].
-@ProviderFor(AddSalesNotifier)
-final addSalesNotifierProvider =
-    AutoDisposeAsyncNotifierProvider<AddSalesNotifier, void>.internal(
-  AddSalesNotifier.new,
-  name: r'addSalesNotifierProvider',
+/// See also [AddItemNotifier].
+@ProviderFor(AddItemNotifier)
+final addItemNotifierProvider =
+    AutoDisposeAsyncNotifierProvider<AddItemNotifier, void>.internal(
+  AddItemNotifier.new,
+  name: r'addItemNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$addSalesNotifierHash,
+      : _$addItemNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$AddSalesNotifier = AutoDisposeAsyncNotifier<void>;
+typedef _$AddItemNotifier = AutoDisposeAsyncNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

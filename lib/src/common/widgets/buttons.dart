@@ -42,10 +42,10 @@ class MainBtns extends StatelessWidget {
           textStyle: btnTextStyle ?? kBtnTextStyle,
           backgroundColor: loadingState
               ? backgroundColor == null
-                  ? kSecondaryColor.withOpacity(0.5)
+                  ? kAltSecondaryColor.withOpacity(0.5)
                   : backgroundColor!.withOpacity(0.5)
-              : backgroundColor,
-          foregroundColor: foregroundColor ?? context.colorScheme.onSecondary,
+              : backgroundColor ?? kAltSecondaryColor,
+          foregroundColor: foregroundColor ?? context.colorScheme.secondary,
           fixedSize: flexWidth
               ? Size.fromHeight(height ?? 40.0)
               : Size(width ?? size.width, height ?? 40.0),
@@ -55,7 +55,7 @@ class MainBtns extends StatelessWidget {
               Radius.circular(kBtnRadius),
             ),
           ),
-          side: BorderSide(color: borderSideColor ?? kSecondaryColor)),
+          side: BorderSide(color: borderSideColor ?? kAltSecondaryColor)),
       child: loadingState
           ? const SizedBox(
               width: 25.0,
@@ -106,8 +106,8 @@ class MainBtnLoading extends StatelessWidget {
       width: width ?? size.width,
       loadingState: true,
       flexWidth: false,
-      backgroundColor: kSecondaryColor,
-      foregroundColor: kPrimaryColor,
+      backgroundColor: kAltSecondaryColor,
+      foregroundColor: kSecondaryColor,
       borderSideColor: kPrimaryColor,
       btnText: '',
       onPressed: () {},
@@ -128,8 +128,8 @@ class MainBtnsNull extends StatelessWidget {
       size: size,
       width: width,
       loadingState: false,
-      backgroundColor: kSecondaryColor,
-      foregroundColor: kPrimaryColor,
+      backgroundColor: kAltSecondaryColor,
+      foregroundColor: kSecondaryColor,
       borderSideColor: kPrimaryColor,
       btnText: btnText,
       onPressed: null,

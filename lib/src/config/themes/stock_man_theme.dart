@@ -94,6 +94,25 @@ class StockManCustomTheme {
         ),
       ),
 
+      // dialogTheme: DialogTheme.of(context).copyWith(
+      //   backgroundColor: kPrimaryColor,
+      //   titleTextStyle: GoogleFonts.poppins().copyWith(
+      //     color: kSecondaryColor,
+      //     fontSize: 20,
+      //     fontWeight: FontWeight.w600,
+      //   ),
+      //   contentTextStyle: GoogleFonts.poppins().copyWith(
+      //     color: kSecondaryColor,
+      //     fontSize: 16,
+      //     fontWeight: FontWeight.w400,
+      //   ),
+      // ),
+
+      datePickerTheme: DatePickerTheme.of(context).copyWith(
+        backgroundColor: kPrimaryColor,
+        headerForegroundColor: kSecondaryColor,
+      ),
+
       checkboxTheme: CheckboxThemeData(
         fillColor: MaterialStateProperty.resolveWith((states) {
           if (states.contains(MaterialState.disabled)) {
@@ -122,6 +141,7 @@ class StockManCustomTheme {
         primary: kPrimaryColor,
         onPrimary: kSecondaryColor,
         primaryContainer: const Color(0xff26262A),
+        onPrimaryContainer: Colors.grey.shade500,
         onSurface: kSecondaryColor,
         secondary: kSecondaryColor,
         onSecondary: kPrimaryColor,
