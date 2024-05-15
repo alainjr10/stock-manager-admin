@@ -6,6 +6,7 @@ import 'package:stock_manager_admin/src/features/add_item/presentation/screens/c
 import 'package:stock_manager_admin/src/features/home/presentation/screens/homescreen.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/screens/product_details.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
+import 'package:stock_manager_admin/src/features/sales/presentation/screens/sales_scrn.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 part 'router.g.dart';
 
@@ -58,6 +59,11 @@ GoRouter router(RouterRef ref) {
               );
             },
           ),
+          GoRoute(
+              path: 'sales',
+              builder: (context, state) {
+                return const SalesScrn();
+              })
         ],
       ),
     ],

@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
+import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -36,7 +36,6 @@ class SupabaseInventoryData {
   }
 
   Future<void> addProduct(Product product) async {
-    await Future.delayed(const Duration(milliseconds: 2500));
     try {
       await _supabase.from('inventory').upsert(product.toJson());
     } catch (e, st) {
@@ -59,7 +58,11 @@ class SupabaseInventoryData {
 
   Future<void> deleteProduct(String productId) async {
     try {
-      await _supabase.from('inventory').delete().eq('product_id', productId);
+      // we don't delete, let's just update the is_active field to false
+      // await _supabase.from('inventory').delete().eq('product_id', productId);
+      await _supabase
+          .from('inventory')
+          .update({'is_active': false}).eq('product_id', productId);
     } catch (e, st) {
       'error deleting product: $e: stacktrace: $st'.log();
       rethrow;

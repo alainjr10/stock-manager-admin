@@ -1,7 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:stock_manager_admin/src/features/inventory/data/data_sources/supabase_inventory_data.dart';
-import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
+import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 part 'inventory_providers.g.dart';
 
 final isSelectableRows = StateProvider.autoDispose<bool>((ref) => false);

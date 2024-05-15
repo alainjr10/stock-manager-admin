@@ -4,64 +4,20 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
-import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
+import 'package:stock_manager_admin/src/features/sales/presentation/view_models/sales_providers.dart';
 import 'package:stock_manager_admin/src/utils/constants/constants.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 
-class HomeScreen extends ConsumerWidget {
-  const HomeScreen({super.key});
+class SalesScrn extends ConsumerWidget {
+  const SalesScrn({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final selectedItems = ref.watch(itemsToSellNotifierProvider);
-    final selectableRows = ref.watch(isSelectableRows);
+    // final selectedItems = ref.watch(itemsToSellNotifierProvider);
+    // final selectableRows = ref.watch(isSelectableRows);
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 120,
-              child: Center(
-                child: DrawerHeader(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Inventory Manager",
-                        style: context.headlineMedium.bold,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            HomeDrawerListTile(
-              title: "Dashboard",
-              icon: Icons.dashboard_outlined,
-              isSelected: true,
-              onTap: () {
-                context.go('/');
-              },
-            ),
-            HomeDrawerListTile(
-              title: "Sales",
-              icon: Icons.production_quantity_limits_outlined,
-              onTap: () {
-                context.go('/sales');
-              },
-            ),
-            HomeDrawerListTile(
-              title: "Inventory Management",
-              icon: Icons.inventory_outlined,
-              onTap: () {
-                context.go('/');
-              },
-            ),
-          ],
-        ),
-      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           context.go('/add_item');
@@ -75,26 +31,15 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Home Screen',
-                    style: context.bodyMedium,
-                  ),
-                ],
-              ),
-            ),
             8.vGap,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Products in Inventory", style: context.titleSmall.bold),
+                Text("Sales Records", style: context.titleSmall.bold),
                 IconButton(
                   onPressed: () {
-                    ref.invalidate(productCrudNotifierProvider);
-                    ref.read(productCrudNotifierProvider);
+                    ref.invalidate(salesNotifierProvider);
+                    ref.read(salesNotifierProvider);
                   },
                   icon: const Icon(Icons.refresh_outlined),
                 ),
@@ -103,7 +48,7 @@ class HomeScreen extends ConsumerWidget {
             8.vGap,
             SizedBox(
               height: size.height * 0.45,
-              child: ref.watch(productCrudNotifierProvider).when(
+              child: ref.watch(salesNotifierProvider).when(
                 error: (error, stackTrace) {
                   return Center(
                     child: Column(
@@ -112,8 +57,8 @@ class HomeScreen extends ConsumerWidget {
                         const Text("An error occured loading products"),
                         TextButton.icon(
                           onPressed: () {
-                            ref.invalidate(productCrudNotifierProvider);
-                            ref.read(productCrudNotifierProvider);
+                            ref.invalidate(salesNotifierProvider);
+                            ref.read(salesNotifierProvider);
                           },
                           icon: const Icon(Icons.refresh),
                           label: const Text("Refresh"),
@@ -125,8 +70,8 @@ class HomeScreen extends ConsumerWidget {
                 loading: () {
                   return const CenterLoadingWidget(label: "Fetching Products");
                 },
-                data: (products) {
-                  return products.isEmpty
+                data: (sales) {
+                  return sales.isEmpty
                       ? const Center(
                           child: Text("No products in inventory"),
                         )
@@ -142,9 +87,9 @@ class HomeScreen extends ConsumerWidget {
                           fixedLeftColumns: 1,
                           smRatio: 0.45,
                           onSelectAll: (value) {
-                            ref
-                                .read(itemsToSellNotifierProvider.notifier)
-                                .toggleAllSelection(products);
+                            // ref
+                            //     .read(itemsToSellNotifierProvider.notifier)
+                            //     .toggleAllSelection(products);
                           },
                           columns: [
                             DataColumn2(
@@ -155,7 +100,7 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             DataColumn2(
                               label: Text(
-                                'Stock',
+                                'Qty Sold',
                                 style: context.bodySmall.bold700,
                               ),
                               numeric: true,
@@ -163,66 +108,67 @@ class HomeScreen extends ConsumerWidget {
                             ),
                             DataColumn2(
                               label: Text(
-                                'Price',
+                                'Selling Price',
                                 style: context.bodySmall.bold700,
                               ),
                             ),
                             DataColumn2(
                               label: Text(
-                                'Expiry Date',
+                                'Sold On',
                                 style: context.bodySmall.bold700,
                               ),
                             ),
                           ],
                           rows: [
-                            for (Product product in products)
+                            for (SalesProductModel sale in sales)
                               DataRow(
-                                selected: selectedItems.contains(product),
-                                onSelectChanged: !selectableRows
-                                    ? null
-                                    : (value) {
-                                        ref
-                                            .read(itemsToSellNotifierProvider
-                                                .notifier)
-                                            .toggleSelection(product);
-                                      },
-                                onLongPress: () {
-                                  ref
-                                      .read(isSelectableRows.notifier)
-                                      .update((state) => true);
-                                  ref
-                                      .read(
-                                          itemsToSellNotifierProvider.notifier)
-                                      .toggleSelection(product);
-                                },
+                                // selected: selectedItems.contains(product),
+                                // onSelectChanged: !selectableRows
+                                //     ? null
+                                //     : (value) {
+                                //         ref
+                                //             .read(itemsToSellNotifierProvider
+                                //                 .notifier)
+                                //             .toggleSelection(product);
+                                //       },
+                                // onLongPress: () {
+                                //   ref
+                                //       .read(isSelectableRows.notifier)
+                                //       .update((state) => true);
+                                //   ref
+                                //       .read(
+                                //           itemsToSellNotifierProvider.notifier)
+                                //       .toggleSelection(product);
+                                // },
                                 cells: [
                                   DataCell(
                                     Text(
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      product.productName,
+                                      sale.product.productName,
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                     onTap: () {
                                       context.go(
-                                          '/item_details/${product.productId}');
+                                          '/item_details/${sale.product.productId}');
                                     },
                                   ),
                                   DataCell(
                                     Text(
-                                      product.availableQty.toString(),
+                                      sale.salesModel.qtySold.toString(),
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                   ),
                                   DataCell(
                                     Text(
-                                      "XAF ${product.sellingPrice.toInt()}",
+                                      "XAF ${sale.salesModel.sellingPrice.toInt()}",
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                   ),
                                   DataCell(
                                     Text(
-                                      product.expiryDate!.dateToString,
+                                      sale.salesModel.dateAdded!
+                                          .dateTimeToString,
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                   ),

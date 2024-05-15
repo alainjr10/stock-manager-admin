@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/common/widgets/buttons.dart';
 import 'package:stock_manager_admin/src/common/widgets/text_form_fields.dart';
 import 'package:stock_manager_admin/src/features/add_item/presentation/view_models/add_item_providers.dart';
-import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
+import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 import 'package:uuid/uuid.dart';
