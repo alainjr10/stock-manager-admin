@@ -125,102 +125,110 @@ class HomeScreen extends ConsumerWidget {
                   return const CenterLoadingWidget(label: "Fetching Products");
                 },
                 data: (products) {
-                  return DataTable2(
-                    columnSpacing: 24,
-                    horizontalMargin: 8,
-                    minWidth: 600,
-                    dividerThickness: 0.25,
-                    headingCheckboxTheme: context.theme.checkboxTheme,
-                    datarowCheckboxTheme: context.theme.checkboxTheme,
-                    checkboxHorizontalMargin: 0,
-                    fixedLeftColumns: 1,
-                    smRatio: 0.5,
-                    onSelectAll: (value) {
-                      ref
-                          .read(itemsToSellNotifierProvider.notifier)
-                          .toggleAllSelection(products);
-                    },
-                    columns: [
-                      DataColumn2(
-                        label: Text(
-                          'Product',
-                          style: context.bodySmall.bold700,
-                        ),
-                      ),
-                      DataColumn2(
-                        label: Text(
-                          'Stock',
-                          style: context.bodySmall.bold700,
-                        ),
-                        numeric: true,
-                        size: ColumnSize.S,
-                      ),
-                      DataColumn2(
-                        label: Text(
-                          'Price',
-                          style: context.bodySmall.bold700,
-                        ),
-                      ),
-                      DataColumn2(
-                        label: Text(
-                          'Last Order Date',
-                          style: context.bodySmall.bold700,
-                        ),
-                      ),
-                    ],
-                    rows: [
-                      for (Product product in products)
-                        DataRow(
-                          selected: selectedItems.contains(product),
-                          onSelectChanged: !selectableRows
-                              ? null
-                              : (value) {
+                  return products.isEmpty
+                      ? const Center(
+                          child: Text("No products in inventory"),
+                        )
+                      : DataTable2(
+                          columnSpacing: 24,
+                          horizontalMargin: 8,
+                          minWidth: 600,
+                          dividerThickness: 0.25,
+                          dataRowHeight: 54,
+                          headingCheckboxTheme: context.theme.checkboxTheme,
+                          datarowCheckboxTheme: context.theme.checkboxTheme,
+                          checkboxHorizontalMargin: 0,
+                          fixedLeftColumns: 1,
+                          smRatio: 0.45,
+                          onSelectAll: (value) {
+                            ref
+                                .read(itemsToSellNotifierProvider.notifier)
+                                .toggleAllSelection(products);
+                          },
+                          columns: [
+                            DataColumn2(
+                              label: Text(
+                                'Product',
+                                style: context.bodySmall.bold700,
+                              ),
+                            ),
+                            DataColumn2(
+                              label: Text(
+                                'Stock',
+                                style: context.bodySmall.bold700,
+                              ),
+                              numeric: true,
+                              size: ColumnSize.S,
+                            ),
+                            DataColumn2(
+                              label: Text(
+                                'Price',
+                                style: context.bodySmall.bold700,
+                              ),
+                            ),
+                            DataColumn2(
+                              label: Text(
+                                'Expiry Date',
+                                style: context.bodySmall.bold700,
+                              ),
+                            ),
+                          ],
+                          rows: [
+                            for (Product product in products)
+                              DataRow(
+                                selected: selectedItems.contains(product),
+                                onSelectChanged: !selectableRows
+                                    ? null
+                                    : (value) {
+                                        ref
+                                            .read(itemsToSellNotifierProvider
+                                                .notifier)
+                                            .toggleSelection(product);
+                                      },
+                                onLongPress: () {
+                                  ref
+                                      .read(isSelectableRows.notifier)
+                                      .update((state) => true);
                                   ref
                                       .read(
                                           itemsToSellNotifierProvider.notifier)
                                       .toggleSelection(product);
                                 },
-                          onLongPress: () {
-                            ref
-                                .read(isSelectableRows.notifier)
-                                .update((state) => true);
-                            ref
-                                .read(itemsToSellNotifierProvider.notifier)
-                                .toggleSelection(product);
-                          },
-                          cells: [
-                            DataCell(
-                              Text(
-                                product.productName,
-                                style: context.bodySmall.secondaryColor,
+                                cells: [
+                                  DataCell(
+                                    Text(
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      product.productName,
+                                      style: context.bodySmall.secondaryColor,
+                                    ),
+                                    onTap: () {
+                                      context.go(
+                                          '/item_details/${product.productId}');
+                                    },
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      product.availableQty.toString(),
+                                      style: context.bodySmall.secondaryColor,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      "XAF ${product.sellingPrice.toInt()}",
+                                      style: context.bodySmall.secondaryColor,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    Text(
+                                      product.expiryDate!.dateToString,
+                                      style: context.bodySmall.secondaryColor,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              onTap: () {
-                                context
-                                    .go('/item_details/${product.productId}');
-                              },
-                            ),
-                            DataCell(
-                              Text(
-                                product.availableQty.toString(),
-                                style: context.bodySmall.secondaryColor,
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                "XAF ${product.sellingPrice.toInt()}",
-                                style: context.bodySmall.secondaryColor,
-                              ),
-                            ),
-                            DataCell(
-                              Text(
-                                product.dateModified!.dateToString,
-                                style: context.bodySmall.secondaryColor,
-                              ),
-                            ),
                           ],
-                        ),
-                    ],
-                  );
+                        );
                 },
               ),
             ),

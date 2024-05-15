@@ -1,6 +1,6 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:stock_manager_admin/src/features/inventory/data/data_sources/local_inventory_data.dart';
+import 'package:stock_manager_admin/src/features/inventory/data/data_sources/supabase_inventory_data.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
 part 'inventory_providers.g.dart';
 
@@ -10,14 +10,14 @@ final productUpdatedController =
 
 @Riverpod(keepAlive: false)
 FutureOr<List<Product>> getInventoryProducts(GetInventoryProductsRef ref) {
-  final repo = ref.read(productsInventoryProvider);
+  final repo = ref.read(supabaseInventoryProvider);
   return repo.getInventoryProducts();
 }
 
 @riverpod
 class GetProductByIdNotifier extends _$GetProductByIdNotifier {
   Future<Product> _fetchProduct(String productId) async {
-    final repo = ref.read(productsInventoryProvider);
+    final repo = ref.read(supabaseInventoryProvider);
     return repo.getProductById(productId);
   }
 
@@ -30,7 +30,7 @@ class GetProductByIdNotifier extends _$GetProductByIdNotifier {
 @riverpod
 class ProductCrudNotifier extends _$ProductCrudNotifier {
   Future<List<Product>> _fetchProducts() async {
-    final repo = ref.read(productsInventoryProvider);
+    final repo = ref.read(supabaseInventoryProvider);
     return repo.getInventoryProducts();
   }
 
@@ -42,7 +42,7 @@ class ProductCrudNotifier extends _$ProductCrudNotifier {
   void addProduct(Product product) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final repo = ref.read(productsInventoryProvider);
+      final repo = ref.read(supabaseInventoryProvider);
       await repo.addProduct(product);
       return _fetchProducts();
     });
@@ -51,7 +51,7 @@ class ProductCrudNotifier extends _$ProductCrudNotifier {
   void updateProduct(Product product) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final repo = ref.read(productsInventoryProvider);
+      final repo = ref.read(supabaseInventoryProvider);
       await repo.updateProduct(product);
       return _fetchProducts();
     });
@@ -60,7 +60,7 @@ class ProductCrudNotifier extends _$ProductCrudNotifier {
   void deleteProduct(String productId) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final repo = ref.read(productsInventoryProvider);
+      final repo = ref.read(supabaseInventoryProvider);
       await repo.deleteProduct(productId);
       return _fetchProducts();
     });

@@ -175,6 +175,9 @@ class ItemDetailsCustomInputFormField extends StatelessWidget {
       inputFormatters: inputFormatters,
       initialValue: initialValue,
       cursorColor: context.colorScheme.secondary,
+      expands: true,
+      maxLines: null,
+      minLines: null,
       textAlign: TextAlign.right,
       decoration: InputDecoration(
         hintText: hintText.toString(),

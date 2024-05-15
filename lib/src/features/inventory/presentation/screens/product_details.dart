@@ -7,7 +7,6 @@ import 'package:stock_manager_admin/src/common/widgets/buttons.dart';
 import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
 import 'package:stock_manager_admin/src/common/widgets/dialogs.dart';
 import 'package:stock_manager_admin/src/common/widgets/text_form_fields.dart';
-import 'package:stock_manager_admin/src/features/inventory/domain/product_model.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/widgets/product_details_tile_widget.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
@@ -208,21 +207,22 @@ class ItemDetailsScrn extends HookConsumerWidget {
                                             showAdaptiveDialog(
                                               context: context,
                                               builder: (context) {
-                                                final updProduct = Product(
-                                                  productId:
-                                                      selectedProduct.productId,
+                                                final updProduct =
+                                                    selectedProduct.copyWith(
                                                   productName:
                                                       productNameController
                                                           .text,
                                                   availableQty: int.parse(
                                                       availableQtyController
                                                           .text),
-                                                  costPrice: double.parse(
+                                                  costPrice: int.parse(
                                                       costPriceController.text),
-                                                  sellingPrice: double.parse(
+                                                  sellingPrice: int.parse(
                                                       sellingPriceController
                                                           .text),
-                                                  expiryDate: expiryDate,
+                                                  expiryDate: expiryDate ??
+                                                      selectedProduct
+                                                          .expiryDate,
                                                   dateAdded:
                                                       selectedProduct.dateAdded,
                                                   dateModified: DateTime.now(),

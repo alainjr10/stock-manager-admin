@@ -68,4 +68,4 @@ class LocalInventoryData {
   ];
 }
 
-final productsInventoryProvider = Provider((ref) => LocalInventoryData());
+final localInventoryProvider = Provider((ref) => LocalInventoryData());

@@ -75,14 +75,19 @@ class EditableItemDetailsTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Flexible(
-                child: valueWidget ??
-                    ItemDetailsCustomInputFormField(
-                      controller: controller,
-                      hintText: value,
-                      inputType: inputType,
-                      inputFormatters: inputFormatters,
-                      onChanged: onChanged,
-                    ),
+                child: IntrinsicHeight(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 140),
+                    child: valueWidget ??
+                        ItemDetailsCustomInputFormField(
+                          controller: controller,
+                          hintText: value,
+                          inputType: inputType,
+                          inputFormatters: inputFormatters,
+                          onChanged: onChanged,
+                        ),
+                  ),
+                ),
                 //  Text(
                 //   value,
                 //   style: context.bodyMedium,

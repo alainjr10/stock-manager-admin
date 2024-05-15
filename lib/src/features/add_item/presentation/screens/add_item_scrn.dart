@@ -195,8 +195,8 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                     final product = Product(
                       productId: uuid.v4(),
                       productName: _productNameController.text,
-                      costPrice: double.parse(_costPriceController.text),
-                      sellingPrice: double.parse(_sellingPriceController.text),
+                      costPrice: int.parse(_costPriceController.text),
+                      sellingPrice: int.parse(_sellingPriceController.text),
                       availableQty: int.parse(_quantityController.text),
                       imageUrl: "",
                       expiryDate: _expiryDate,

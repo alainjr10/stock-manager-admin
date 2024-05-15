@@ -7,7 +7,7 @@ part of 'inventory_providers.dart';
 // **************************************************************************
 
 String _$getInventoryProductsHash() =>
-    r'b186d2de808ad2c477cb60f3b49022abde5b0efd';
+    r'18bdcb9c1df757637689b90133bfaad698bc8f80';
 
 /// See also [getInventoryProducts].
 @ProviderFor(getInventoryProducts)
@@ -24,7 +24,7 @@ final getInventoryProductsProvider =
 
 typedef GetInventoryProductsRef = AutoDisposeFutureProviderRef<List<Product>>;
 String _$getProductByIdNotifierHash() =>
-    r'855e27b22be401c767e436bc32fc76aea3d43fac';
+    r'8fe7800c88a445c534483856c718678e15ada95d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -193,7 +193,7 @@ class _GetProductByIdNotifierProviderElement
 }
 
 String _$productCrudNotifierHash() =>
-    r'6a18e6650631cf67176e299eb7cce4acffccf1f0';
+    r'ec933be9553685afd3675f2dd1b87733f5af140c';
 
 /// See also [ProductCrudNotifier].
 @ProviderFor(ProductCrudNotifier)
