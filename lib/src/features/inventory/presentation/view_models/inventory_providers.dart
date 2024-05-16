@@ -67,6 +67,30 @@ class ProductCrudNotifier extends _$ProductCrudNotifier {
   }
 }
 
+@riverpod
+FutureOr<int> getTotalProducts(GetTotalProductsRef ref, int durationCode) {
+  final repo = ref.read(supabaseInventoryProvider);
+  return repo.getTotalActiveProducts(durationCode);
+}
+
+@riverpod
+FutureOr<int> getSoldProducts(GetSoldProductsRef ref, int durationCode) {
+  final repo = ref.read(supabaseInventoryProvider);
+  return repo.getTotalSoldProducts(durationCode);
+}
+
+@riverpod
+FutureOr<int> getSalesValue(GetSalesValueRef ref, int durationCode) {
+  final repo = ref.read(supabaseInventoryProvider);
+  return repo.getTotalSalesValue(durationCode);
+}
+
+@riverpod
+FutureOr<int> getTotalProfits(GetTotalProfitsRef ref, int durationCode) {
+  final repo = ref.read(supabaseInventoryProvider);
+  return repo.getTotalProfitWithinDuration(durationCode);
+}
+
 @Riverpod(keepAlive: true)
 class ItemsToSellNotifier extends _$ItemsToSellNotifier {
   @override

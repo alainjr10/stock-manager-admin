@@ -7,6 +7,7 @@ import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 class StockManCustomTheme {
   static ThemeData themeData(bool isDarkMode, BuildContext context) {
     return ThemeData(
+      brightness: Brightness.dark,
       scaffoldBackgroundColor: const Color(0xff08080B),
       // isDarkMode ? const Color(0xFF222222) : Colors.white,
       useMaterial3: true,

@@ -24,7 +24,13 @@ class SalesScrn extends ConsumerWidget {
         },
         backgroundColor: kAltSecondaryColor,
         foregroundColor: kSecondaryColor,
-        label: const Icon(Icons.add),
+        label: Row(
+          children: [
+            const Icon(Icons.add),
+            4.hGap,
+            const Text("Add Product"),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),

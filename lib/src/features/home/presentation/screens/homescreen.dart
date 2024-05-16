@@ -2,7 +2,9 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
+import 'package:stock_manager_admin/src/features/home/presentation/widgets/home_screen_drawer.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
 import 'package:stock_manager_admin/src/utils/constants/constants.dart';
@@ -18,73 +20,73 @@ class HomeScreen extends ConsumerWidget {
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 120,
-              child: Center(
-                child: DrawerHeader(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Inventory Manager",
-                        style: context.headlineMedium.bold,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            HomeDrawerListTile(
-              title: "Dashboard",
-              icon: Icons.dashboard_outlined,
-              isSelected: true,
-              onTap: () {
-                context.go('/');
-              },
-            ),
-            HomeDrawerListTile(
-              title: "Sales",
-              icon: Icons.production_quantity_limits_outlined,
-              onTap: () {
-                context.go('/sales');
-              },
-            ),
-            HomeDrawerListTile(
-              title: "Inventory Management",
-              icon: Icons.inventory_outlined,
-              onTap: () {
-                context.go('/');
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const HomeScreenDrawer(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           context.go('/add_item');
         },
         backgroundColor: kAltSecondaryColor,
         foregroundColor: kSecondaryColor,
-        label: const Icon(Icons.add),
+        // label: const Icon(Icons.add),
+        label: Row(
+          children: [
+            const Icon(Icons.add),
+            4.hGap,
+            const Text("Add Product"),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Home Screen',
-                    style: context.bodyMedium,
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardDetailsCard(
+                    bgColor: Colors.purple,
+                    icon: Icons.inventory_outlined,
+                    label: "Total Products",
+                    value: '',
+                    provider: ref.watch(getTotalProductsProvider(2)),
                   ),
-                ],
-              ),
+                ),
+                12.hGap,
+                Expanded(
+                  child: DashboardDetailsCard(
+                    bgColor: kAltSecondaryColor,
+                    icon: Icons.ssid_chart_outlined,
+                    label: "Sold Today",
+                    value: '',
+                    provider: ref.watch(getSoldProductsProvider(2)),
+                  ),
+                ),
+              ],
+            ),
+            12.vGap,
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardDetailsCard(
+                    bgColor: Colors.teal,
+                    icon: Icons.bar_chart_outlined,
+                    label: "Today Sales",
+                    value: 'XAF ',
+                    provider: ref.watch(getSalesValueProvider(2)),
+                  ),
+                ),
+                12.hGap,
+                Expanded(
+                  child: DashboardDetailsCard(
+                    bgColor: Colors.green,
+                    icon: Icons.trending_up_outlined,
+                    label: "Today Profit",
+                    value: 'XAF ',
+                    provider: ref.watch(getTotalProfitsProvider(2)),
+                  ),
+                ),
+              ],
             ),
             8.vGap,
             Row(
@@ -102,7 +104,7 @@ class HomeScreen extends ConsumerWidget {
             ),
             8.vGap,
             SizedBox(
-              height: size.height * 0.45,
+              height: size.height * 0.4,
               child: ref.watch(productCrudNotifierProvider).when(
                 error: (error, stackTrace) {
                   return Center(
@@ -240,33 +242,99 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class HomeDrawerListTile extends StatelessWidget {
-  const HomeDrawerListTile({
+class DashboardDetailsCard extends ConsumerWidget {
+  const DashboardDetailsCard({
     super.key,
-    required this.title,
-    this.onTap,
+    required this.label,
+    required this.value,
     required this.icon,
-    this.isSelected = false,
+    required this.bgColor,
+    required this.provider,
   });
-  final String title;
-  final Function()? onTap;
+  final String label;
+  final String value;
   final IconData icon;
-  final bool isSelected;
+  final Color bgColor;
+  final AsyncValue provider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 120,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DecoratedBox(
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kPrimaryColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: Icon(
+                    icon,
+                    size: 20,
+                  ),
+                ),
+              ),
+              8.vGap,
+              provider.maybeWhen(
+                data: (data) {
+                  return Text(
+                    '$value${data.toString()}',
+                    style: context.titleMedium.bold700,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  );
+                },
+                loading: () {
+                  return const CardDataLoadingShimmer();
+                },
+                orElse: () => const Text("0"),
+              ),
+              6.vGap,
+              Text(
+                label,
+                style: context.bodySmall.secondaryColor,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CardDataLoadingShimmer extends StatelessWidget {
+  const CardDataLoadingShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      leading: Icon(
-        icon,
-        color: context.colorScheme.onPrimary,
-      ),
-      onTap: onTap,
-      selectedColor: context.colorScheme.onPrimary,
-      selectedTileColor: context.colorScheme.primaryContainer,
-      selected: isSelected,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+    return SizedBox(
+      child: Opacity(
+        opacity: 0.8,
+        child: Shimmer.fromColors(
+          baseColor: Colors.black12,
+          highlightColor: Colors.white,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text(
+                'Loading',
+                style: context.titleMedium.bold700,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
