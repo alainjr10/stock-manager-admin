@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
+import 'package:stock_manager_admin/src/common/widgets/dropdowns.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/widgets/dashboard_details_card.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
@@ -17,6 +18,7 @@ class SalesScrn extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // final selectedItems = ref.watch(itemsToSellNotifierProvider);
     // final selectableRows = ref.watch(isSelectableRows);
+    final selectedDurationCode = ref.watch(generalDurationCode);
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
@@ -27,15 +29,19 @@ class SalesScrn extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            FilterInventoryCardDropdown(
+                selectedDurationCode: selectedDurationCode),
+            8.vGap,
             Row(
               children: [
                 Expanded(
                   child: DashboardDetailsCard(
                     bgColor: kAltSecondaryColor,
                     icon: Icons.ssid_chart_outlined,
-                    label: "Sold Today",
+                    label: "Sold",
                     value: '',
-                    provider: ref.watch(getSoldProductsProvider(2)),
+                    provider: ref
+                        .watch(getSoldProductsProvider(selectedDurationCode)),
                     providerHasTwoOutputs: true,
                   ),
                 ),
@@ -44,9 +50,10 @@ class SalesScrn extends ConsumerWidget {
                   child: DashboardDetailsCard(
                     bgColor: Colors.teal,
                     icon: Icons.bar_chart_outlined,
-                    label: "Today Sales",
+                    label: "Sales",
                     value: 'XAF ',
-                    provider: ref.watch(getSalesValueProvider(2)),
+                    provider:
+                        ref.watch(getSalesValueProvider(selectedDurationCode)),
                   ),
                 ),
               ],

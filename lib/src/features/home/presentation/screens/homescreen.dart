@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
+import 'package:stock_manager_admin/src/common/widgets/dropdowns.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/widgets/dashboard_details_card.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/widgets/home_screen_drawer.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItems = ref.watch(itemsToSellNotifierProvider);
     final selectableRows = ref.watch(isSelectableRows);
+    final selectedDurationCode = ref.watch(generalDurationCode);
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(),
@@ -41,6 +43,9 @@ class HomeScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            FilterInventoryCardDropdown(
+                selectedDurationCode: selectedDurationCode),
+            8.vGap,
             Row(
               children: [
                 Expanded(
@@ -49,7 +54,8 @@ class HomeScreen extends ConsumerWidget {
                     icon: Icons.inventory_outlined,
                     label: "Total Stock",
                     value: '',
-                    provider: ref.watch(getTotalProductsProvider(2)),
+                    provider: ref
+                        .watch(getTotalProductsProvider(selectedDurationCode)),
                     providerHasTwoOutputs: true,
                   ),
                 ),
@@ -58,9 +64,10 @@ class HomeScreen extends ConsumerWidget {
                   child: DashboardDetailsCard(
                     bgColor: kAltSecondaryColor,
                     icon: Icons.ssid_chart_outlined,
-                    label: "Sold Today",
+                    label: "Sold",
                     value: '',
-                    provider: ref.watch(getSoldProductsProvider(2)),
+                    provider: ref
+                        .watch(getSoldProductsProvider(selectedDurationCode)),
                     providerHasTwoOutputs: true,
                   ),
                 ),
@@ -73,9 +80,10 @@ class HomeScreen extends ConsumerWidget {
                   child: DashboardDetailsCard(
                     bgColor: Colors.teal,
                     icon: Icons.bar_chart_outlined,
-                    label: "Today Sales",
+                    label: "Sales",
                     value: 'XAF ',
-                    provider: ref.watch(getSalesValueProvider(2)),
+                    provider:
+                        ref.watch(getSalesValueProvider(selectedDurationCode)),
                   ),
                 ),
                 12.hGap,
@@ -83,9 +91,10 @@ class HomeScreen extends ConsumerWidget {
                   child: DashboardDetailsCard(
                     bgColor: Colors.green,
                     icon: Icons.trending_up_outlined,
-                    label: "Today Profit",
+                    label: "Profit",
                     value: 'XAF ',
-                    provider: ref.watch(getTotalProfitsProvider(2)),
+                    provider: ref
+                        .watch(getTotalProfitsProvider(selectedDurationCode)),
                   ),
                 ),
               ],

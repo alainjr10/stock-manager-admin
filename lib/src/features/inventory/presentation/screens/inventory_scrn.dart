@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dart';
+import 'package:stock_manager_admin/src/common/widgets/dropdowns.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/widgets/dashboard_details_card.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
@@ -16,6 +17,7 @@ class InventoryScrn extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedItems = ref.watch(itemsToSellNotifierProvider);
     final selectableRows = ref.watch(isSelectableRows);
+    final selectedDurationCode = ref.watch(generalDurationCode);
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
@@ -41,6 +43,9 @@ class InventoryScrn extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            FilterInventoryCardDropdown(
+                selectedDurationCode: selectedDurationCode),
+            8.vGap,
             Row(
               children: [
                 Expanded(
@@ -49,7 +54,8 @@ class InventoryScrn extends ConsumerWidget {
                     icon: Icons.input_outlined,
                     label: "Stock In",
                     value: '',
-                    provider: ref.watch(getTotalProductsProvider(2)),
+                    provider: ref
+                        .watch(getTotalProductsProvider(selectedDurationCode)),
                     providerHasTwoOutputs: true,
                   ),
                 ),
@@ -60,7 +66,8 @@ class InventoryScrn extends ConsumerWidget {
                     icon: Icons.output_outlined,
                     label: "Stock Out",
                     value: '',
-                    provider: ref.watch(getSoldProductsProvider(2)),
+                    provider: ref
+                        .watch(getSoldProductsProvider(selectedDurationCode)),
                     providerHasTwoOutputs: true,
                   ),
                 ),

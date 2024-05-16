@@ -46,4 +46,16 @@ extension NumX on num {
         7 => DateTime(DateTime.now().year, 1, 1),
         _ => DateTime(DateTime.now().year - 1, 1, 1),
       };
+
+  String get durationCodeString => switch (this) {
+        0 => 'All',
+        1 => 'Today',
+        2 => 'Past 7 days',
+        3 => 'Past 30 days',
+        4 => 'Past 90 days',
+        5 => 'This week',
+        6 => 'This month',
+        7 => 'This year',
+        _ => 'All',
+      };
 }

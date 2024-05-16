@@ -7,6 +7,7 @@ part 'inventory_providers.g.dart';
 final isSelectableRows = StateProvider.autoDispose<bool>((ref) => false);
 final productUpdatedController =
     StateProvider.autoDispose<bool>((ref) => false);
+final generalDurationCode = StateProvider<int>((ref) => 1);
 
 @Riverpod(keepAlive: false)
 FutureOr<List<Product>> getInventoryProducts(GetInventoryProductsRef ref) {
