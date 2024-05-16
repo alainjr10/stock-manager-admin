@@ -7,6 +7,7 @@ import 'package:stock_manager_admin/src/common/widgets/dropdowns.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/widgets/dashboard_details_card.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
+import 'package:stock_manager_admin/src/features/inventory/presentation/widgets/product_status_widget.dart';
 import 'package:stock_manager_admin/src/utils/constants/constants.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 
@@ -39,7 +40,7 @@ class InventoryScrn extends ConsumerWidget {
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -73,7 +74,33 @@ class InventoryScrn extends ConsumerWidget {
                 ),
               ],
             ),
-            8.vGap,
+            12.vGap,
+            Row(
+              children: [
+                Expanded(
+                  child: DashboardDetailsCard(
+                    bgColor: kAltSecondaryColor,
+                    icon: Icons.inventory_2_outlined,
+                    label: "Total Stock",
+                    value: '',
+                    provider: ref
+                        .watch(getTotalProductsProvider(selectedDurationCode)),
+                    providerHasTwoOutputs: true,
+                  ),
+                ),
+                12.hGap,
+                Expanded(
+                  child: DashboardDetailsCard(
+                    bgColor: Colors.orange,
+                    icon: Icons.monetization_on_outlined,
+                    label: "Low Stock",
+                    value: '',
+                    provider: ref.watch(getLowStockCountProvider(0)),
+                  ),
+                ),
+              ],
+            ),
+            12.vGap,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -165,12 +192,17 @@ class InventoryScrn extends ConsumerWidget {
                                 'Stock',
                                 style: context.bodySmall.bold700,
                               ),
-                              numeric: true,
                               size: ColumnSize.S,
                             ),
                             DataColumn2(
                               label: Text(
                                 'Price',
+                                style: context.bodySmall.bold700,
+                              ),
+                            ),
+                            DataColumn2(
+                              label: Text(
+                                'Status',
                                 style: context.bodySmall.bold700,
                               ),
                             ),
@@ -226,6 +258,9 @@ class InventoryScrn extends ConsumerWidget {
                                       "XAF ${product.sellingPrice.toInt()}",
                                       style: context.bodySmall.secondaryColor,
                                     ),
+                                  ),
+                                  DataCell(
+                                    ProductStatusWidget(product: product),
                                   ),
                                   DataCell(
                                     Text(

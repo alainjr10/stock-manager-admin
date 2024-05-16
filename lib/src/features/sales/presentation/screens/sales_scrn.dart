@@ -25,7 +25,7 @@ class SalesScrn extends ConsumerWidget {
         title: const Text("Sales"),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

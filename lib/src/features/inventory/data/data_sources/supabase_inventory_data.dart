@@ -112,6 +112,25 @@ class SupabaseInventoryData {
     }
   }
 
+  Future<int> getLowStockProductsCount(int durationCode) async {
+    try {
+      // final endDate = DateTime.now();
+      final startDate = durationCode.startDate;
+      final data = await _supabase
+          .from('inventory')
+          .select('stock_qty, safety_stock')
+          .eq('is_active', true)
+          .gt('stock_qty', 0)
+          .eq('is_critical_stock', true)
+          .gte('created_at', startDate)
+          .count(CountOption.exact);
+      return data.count;
+    } catch (e, st) {
+      'error getting total active products: $e: stacktrace: $st'.log();
+      rethrow;
+    }
+  }
+
   // now let's calculate sales value for a given duration
   Future<int> getTotalSalesValue(int durationCode) async {
     try {

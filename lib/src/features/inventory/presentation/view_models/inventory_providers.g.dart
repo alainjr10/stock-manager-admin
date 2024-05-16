@@ -23,7 +23,7 @@ final getInventoryProductsProvider =
 );
 
 typedef GetInventoryProductsRef = AutoDisposeFutureProviderRef<List<Product>>;
-String _$getTotalProductsHash() => r'829662999436163467343cde17441dc512ec6b7c';
+String _$productStatusHash() => r'14185e4a812b26fa98ec3252c92475dd7aff7463';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -45,6 +45,134 @@ class _SystemHash {
     return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
   }
 }
+
+/// See also [productStatus].
+@ProviderFor(productStatus)
+const productStatusProvider = ProductStatusFamily();
+
+/// See also [productStatus].
+class ProductStatusFamily extends Family<(String, int)> {
+  /// See also [productStatus].
+  const ProductStatusFamily();
+
+  /// See also [productStatus].
+  ProductStatusProvider call({
+    required Product product,
+  }) {
+    return ProductStatusProvider(
+      product: product,
+    );
+  }
+
+  @override
+  ProductStatusProvider getProviderOverride(
+    covariant ProductStatusProvider provider,
+  ) {
+    return call(
+      product: provider.product,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'productStatusProvider';
+}
+
+/// See also [productStatus].
+class ProductStatusProvider extends AutoDisposeProvider<(String, int)> {
+  /// See also [productStatus].
+  ProductStatusProvider({
+    required Product product,
+  }) : this._internal(
+          (ref) => productStatus(
+            ref as ProductStatusRef,
+            product: product,
+          ),
+          from: productStatusProvider,
+          name: r'productStatusProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$productStatusHash,
+          dependencies: ProductStatusFamily._dependencies,
+          allTransitiveDependencies:
+              ProductStatusFamily._allTransitiveDependencies,
+          product: product,
+        );
+
+  ProductStatusProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.product,
+  }) : super.internal();
+
+  final Product product;
+
+  @override
+  Override overrideWith(
+    (String, int) Function(ProductStatusRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ProductStatusProvider._internal(
+        (ref) => create(ref as ProductStatusRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        product: product,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeProviderElement<(String, int)> createElement() {
+    return _ProductStatusProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ProductStatusProvider && other.product == product;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, product.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ProductStatusRef on AutoDisposeProviderRef<(String, int)> {
+  /// The parameter `product` of this provider.
+  Product get product;
+}
+
+class _ProductStatusProviderElement
+    extends AutoDisposeProviderElement<(String, int)> with ProductStatusRef {
+  _ProductStatusProviderElement(super.provider);
+
+  @override
+  Product get product => (origin as ProductStatusProvider).product;
+}
+
+String _$getTotalProductsHash() => r'829662999436163467343cde17441dc512ec6b7c';
 
 /// See also [getTotalProducts].
 @ProviderFor(getTotalProducts)
@@ -172,6 +300,135 @@ class _GetTotalProductsProviderElement
 
   @override
   int get durationCode => (origin as GetTotalProductsProvider).durationCode;
+}
+
+String _$getLowStockCountHash() => r'70c2b3f8abd3eef4caacb111813697d8b50ad4fe';
+
+/// See also [getLowStockCount].
+@ProviderFor(getLowStockCount)
+const getLowStockCountProvider = GetLowStockCountFamily();
+
+/// See also [getLowStockCount].
+class GetLowStockCountFamily extends Family<AsyncValue<int>> {
+  /// See also [getLowStockCount].
+  const GetLowStockCountFamily();
+
+  /// See also [getLowStockCount].
+  GetLowStockCountProvider call(
+    int durationCode,
+  ) {
+    return GetLowStockCountProvider(
+      durationCode,
+    );
+  }
+
+  @override
+  GetLowStockCountProvider getProviderOverride(
+    covariant GetLowStockCountProvider provider,
+  ) {
+    return call(
+      provider.durationCode,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'getLowStockCountProvider';
+}
+
+/// See also [getLowStockCount].
+class GetLowStockCountProvider extends AutoDisposeFutureProvider<int> {
+  /// See also [getLowStockCount].
+  GetLowStockCountProvider(
+    int durationCode,
+  ) : this._internal(
+          (ref) => getLowStockCount(
+            ref as GetLowStockCountRef,
+            durationCode,
+          ),
+          from: getLowStockCountProvider,
+          name: r'getLowStockCountProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getLowStockCountHash,
+          dependencies: GetLowStockCountFamily._dependencies,
+          allTransitiveDependencies:
+              GetLowStockCountFamily._allTransitiveDependencies,
+          durationCode: durationCode,
+        );
+
+  GetLowStockCountProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.durationCode,
+  }) : super.internal();
+
+  final int durationCode;
+
+  @override
+  Override overrideWith(
+    FutureOr<int> Function(GetLowStockCountRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: GetLowStockCountProvider._internal(
+        (ref) => create(ref as GetLowStockCountRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        durationCode: durationCode,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<int> createElement() {
+    return _GetLowStockCountProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetLowStockCountProvider &&
+        other.durationCode == durationCode;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, durationCode.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin GetLowStockCountRef on AutoDisposeFutureProviderRef<int> {
+  /// The parameter `durationCode` of this provider.
+  int get durationCode;
+}
+
+class _GetLowStockCountProviderElement
+    extends AutoDisposeFutureProviderElement<int> with GetLowStockCountRef {
+  _GetLowStockCountProviderElement(super.provider);
+
+  @override
+  int get durationCode => (origin as GetLowStockCountProvider).durationCode;
 }
 
 String _$getSoldProductsHash() => r'9cab77993533d4f2cbc6394103bd18d1b7d7ad7d';
