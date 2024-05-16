@@ -68,13 +68,14 @@ class ProductCrudNotifier extends _$ProductCrudNotifier {
 }
 
 @riverpod
-FutureOr<int> getTotalProducts(GetTotalProductsRef ref, int durationCode) {
+FutureOr<(int, int)> getTotalProducts(
+    GetTotalProductsRef ref, int durationCode) {
   final repo = ref.read(supabaseInventoryProvider);
   return repo.getTotalActiveProducts(durationCode);
 }
 
 @riverpod
-FutureOr<int> getSoldProducts(GetSoldProductsRef ref, int durationCode) {
+FutureOr<(int, int)> getSoldProducts(GetSoldProductsRef ref, int durationCode) {
   final repo = ref.read(supabaseInventoryProvider);
   return repo.getTotalSoldProducts(durationCode);
 }

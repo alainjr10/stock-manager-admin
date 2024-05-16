@@ -23,7 +23,7 @@ final getInventoryProductsProvider =
 );
 
 typedef GetInventoryProductsRef = AutoDisposeFutureProviderRef<List<Product>>;
-String _$getTotalProductsHash() => r'7aee2200a2d120475207757a78150c767526ce7c';
+String _$getTotalProductsHash() => r'829662999436163467343cde17441dc512ec6b7c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -51,7 +51,7 @@ class _SystemHash {
 const getTotalProductsProvider = GetTotalProductsFamily();
 
 /// See also [getTotalProducts].
-class GetTotalProductsFamily extends Family<AsyncValue<int>> {
+class GetTotalProductsFamily extends Family<AsyncValue<(int, int)>> {
   /// See also [getTotalProducts].
   const GetTotalProductsFamily();
 
@@ -89,7 +89,7 @@ class GetTotalProductsFamily extends Family<AsyncValue<int>> {
 }
 
 /// See also [getTotalProducts].
-class GetTotalProductsProvider extends AutoDisposeFutureProvider<int> {
+class GetTotalProductsProvider extends AutoDisposeFutureProvider<(int, int)> {
   /// See also [getTotalProducts].
   GetTotalProductsProvider(
     int durationCode,
@@ -124,7 +124,7 @@ class GetTotalProductsProvider extends AutoDisposeFutureProvider<int> {
 
   @override
   Override overrideWith(
-    FutureOr<int> Function(GetTotalProductsRef provider) create,
+    FutureOr<(int, int)> Function(GetTotalProductsRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -141,7 +141,7 @@ class GetTotalProductsProvider extends AutoDisposeFutureProvider<int> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<int> createElement() {
+  AutoDisposeFutureProviderElement<(int, int)> createElement() {
     return _GetTotalProductsProviderElement(this);
   }
 
@@ -160,27 +160,28 @@ class GetTotalProductsProvider extends AutoDisposeFutureProvider<int> {
   }
 }
 
-mixin GetTotalProductsRef on AutoDisposeFutureProviderRef<int> {
+mixin GetTotalProductsRef on AutoDisposeFutureProviderRef<(int, int)> {
   /// The parameter `durationCode` of this provider.
   int get durationCode;
 }
 
 class _GetTotalProductsProviderElement
-    extends AutoDisposeFutureProviderElement<int> with GetTotalProductsRef {
+    extends AutoDisposeFutureProviderElement<(int, int)>
+    with GetTotalProductsRef {
   _GetTotalProductsProviderElement(super.provider);
 
   @override
   int get durationCode => (origin as GetTotalProductsProvider).durationCode;
 }
 
-String _$getSoldProductsHash() => r'6f1b655790419a8b8fe70dcd3fe543a3b78dffdb';
+String _$getSoldProductsHash() => r'9cab77993533d4f2cbc6394103bd18d1b7d7ad7d';
 
 /// See also [getSoldProducts].
 @ProviderFor(getSoldProducts)
 const getSoldProductsProvider = GetSoldProductsFamily();
 
 /// See also [getSoldProducts].
-class GetSoldProductsFamily extends Family<AsyncValue<int>> {
+class GetSoldProductsFamily extends Family<AsyncValue<(int, int)>> {
   /// See also [getSoldProducts].
   const GetSoldProductsFamily();
 
@@ -218,7 +219,7 @@ class GetSoldProductsFamily extends Family<AsyncValue<int>> {
 }
 
 /// See also [getSoldProducts].
-class GetSoldProductsProvider extends AutoDisposeFutureProvider<int> {
+class GetSoldProductsProvider extends AutoDisposeFutureProvider<(int, int)> {
   /// See also [getSoldProducts].
   GetSoldProductsProvider(
     int durationCode,
@@ -253,7 +254,7 @@ class GetSoldProductsProvider extends AutoDisposeFutureProvider<int> {
 
   @override
   Override overrideWith(
-    FutureOr<int> Function(GetSoldProductsRef provider) create,
+    FutureOr<(int, int)> Function(GetSoldProductsRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
@@ -270,7 +271,7 @@ class GetSoldProductsProvider extends AutoDisposeFutureProvider<int> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<int> createElement() {
+  AutoDisposeFutureProviderElement<(int, int)> createElement() {
     return _GetSoldProductsProviderElement(this);
   }
 
@@ -289,13 +290,14 @@ class GetSoldProductsProvider extends AutoDisposeFutureProvider<int> {
   }
 }
 
-mixin GetSoldProductsRef on AutoDisposeFutureProviderRef<int> {
+mixin GetSoldProductsRef on AutoDisposeFutureProviderRef<(int, int)> {
   /// The parameter `durationCode` of this provider.
   int get durationCode;
 }
 
 class _GetSoldProductsProviderElement
-    extends AutoDisposeFutureProviderElement<int> with GetSoldProductsRef {
+    extends AutoDisposeFutureProviderElement<(int, int)>
+    with GetSoldProductsRef {
   _GetSoldProductsProviderElement(super.provider);
 
   @override

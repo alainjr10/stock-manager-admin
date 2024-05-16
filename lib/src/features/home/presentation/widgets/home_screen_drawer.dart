@@ -48,7 +48,7 @@ class HomeScreenDrawer extends StatelessWidget {
             title: "Inventory Management",
             icon: Icons.inventory_outlined,
             onTap: () {
-              context.go('/');
+              context.go('/inventory');
             },
           ),
         ],

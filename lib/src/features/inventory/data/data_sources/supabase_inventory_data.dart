@@ -70,7 +70,7 @@ class SupabaseInventoryData {
   }
 
   // get total active products in inventory. that is, products with is_active and each product * their stock qty
-  Future<int> getTotalActiveProducts(int durationCode) async {
+  Future<(int, int)> getTotalActiveProducts(int durationCode) async {
     try {
       // final endDate = DateTime.now();
       final startDate = durationCode.startDate;
@@ -85,7 +85,7 @@ class SupabaseInventoryData {
           0,
           (previousValue, element) =>
               previousValue + element['stock_qty'] as int);
-      return total;
+      return (total, data.count);
     } catch (e, st) {
       'error getting total active products: $e: stacktrace: $st'.log();
       rethrow;
@@ -93,7 +93,7 @@ class SupabaseInventoryData {
   }
 
   /// CHECK [extensions/num.dart] extension FOR THE DURATION CODES and [startDate] extension
-  Future<int> getTotalSoldProducts(int durationCode) async {
+  Future<(int, int)> getTotalSoldProducts(int durationCode) async {
     try {
       final startDate = durationCode.startDate;
       final data = await _supabase
@@ -105,7 +105,7 @@ class SupabaseInventoryData {
           0,
           (previousValue, element) =>
               previousValue + element['qty_sold'] as int);
-      return total;
+      return (total, data.count);
     } catch (e, st) {
       'error getting total sold products: $e: stacktrace: $st'.log();
       rethrow;

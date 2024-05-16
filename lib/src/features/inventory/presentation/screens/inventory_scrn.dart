@@ -6,21 +6,35 @@ import 'package:stock_manager_admin/src/common/widgets/center_loading_widget.dar
 import 'package:stock_manager_admin/src/features/home/presentation/widgets/dashboard_details_card.dart';
 import 'package:stock_manager_admin/src/features/inventory/domain/inventory_models.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
-import 'package:stock_manager_admin/src/features/sales/presentation/view_models/sales_providers.dart';
 import 'package:stock_manager_admin/src/utils/constants/constants.dart';
 import 'package:stock_manager_admin/src/utils/extensions/extensions.dart';
 
-class SalesScrn extends ConsumerWidget {
-  const SalesScrn({super.key});
+class InventoryScrn extends ConsumerWidget {
+  const InventoryScrn({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final selectedItems = ref.watch(itemsToSellNotifierProvider);
-    // final selectableRows = ref.watch(isSelectableRows);
+    final selectedItems = ref.watch(itemsToSellNotifierProvider);
+    final selectableRows = ref.watch(isSelectableRows);
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Sales"),
+        title: const Text("Inventory"),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          context.go('/add_item');
+        },
+        backgroundColor: kAltSecondaryColor,
+        foregroundColor: kSecondaryColor,
+        // label: const Icon(Icons.add),
+        label: Row(
+          children: [
+            const Icon(Icons.add),
+            4.hGap,
+            const Text("Add Product"),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
@@ -31,22 +45,23 @@ class SalesScrn extends ConsumerWidget {
               children: [
                 Expanded(
                   child: DashboardDetailsCard(
-                    bgColor: kAltSecondaryColor,
-                    icon: Icons.ssid_chart_outlined,
-                    label: "Sold Today",
+                    bgColor: Colors.green,
+                    icon: Icons.input_outlined,
+                    label: "Stock In",
                     value: '',
-                    provider: ref.watch(getSoldProductsProvider(2)),
+                    provider: ref.watch(getTotalProductsProvider(2)),
                     providerHasTwoOutputs: true,
                   ),
                 ),
                 12.hGap,
                 Expanded(
                   child: DashboardDetailsCard(
-                    bgColor: Colors.teal,
-                    icon: Icons.bar_chart_outlined,
-                    label: "Today Sales",
-                    value: 'XAF ',
-                    provider: ref.watch(getSalesValueProvider(2)),
+                    bgColor: Colors.pink,
+                    icon: Icons.output_outlined,
+                    label: "Stock Out",
+                    value: '',
+                    provider: ref.watch(getSoldProductsProvider(2)),
+                    providerHasTwoOutputs: true,
                   ),
                 ),
               ],
@@ -55,11 +70,31 @@ class SalesScrn extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Sales Records", style: context.titleSmall.bold),
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Inventory Products: ",
+                          style: context.titleSmall.bold,
+                        ),
+                        TextSpan(
+                          text:
+                              "(${ref.watch(getTotalProductsProvider(0)).maybeWhen(
+                                    data: (productsCount) =>
+                                        productsCount.$2.toString(),
+                                    orElse: () => "0",
+                                  )})",
+                          style: context.titleSmall.bold700,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 IconButton(
                   onPressed: () {
-                    ref.invalidate(salesNotifierProvider);
-                    ref.read(salesNotifierProvider);
+                    ref.invalidate(productCrudNotifierProvider);
+                    ref.read(productCrudNotifierProvider);
                   },
                   icon: const Icon(Icons.refresh_outlined),
                 ),
@@ -67,8 +102,8 @@ class SalesScrn extends ConsumerWidget {
             ),
             8.vGap,
             SizedBox(
-              height: size.height * 0.60,
-              child: ref.watch(salesNotifierProvider).when(
+              height: size.height * 0.4,
+              child: ref.watch(productCrudNotifierProvider).when(
                 error: (error, stackTrace) {
                   return Center(
                     child: Column(
@@ -77,8 +112,8 @@ class SalesScrn extends ConsumerWidget {
                         const Text("An error occured loading products"),
                         TextButton.icon(
                           onPressed: () {
-                            ref.invalidate(salesNotifierProvider);
-                            ref.read(salesNotifierProvider);
+                            ref.invalidate(productCrudNotifierProvider);
+                            ref.read(productCrudNotifierProvider);
                           },
                           icon: const Icon(Icons.refresh),
                           label: const Text("Refresh"),
@@ -90,8 +125,8 @@ class SalesScrn extends ConsumerWidget {
                 loading: () {
                   return const CenterLoadingWidget(label: "Fetching Products");
                 },
-                data: (sales) {
-                  return sales.isEmpty
+                data: (products) {
+                  return products.isEmpty
                       ? const Center(
                           child: Text("No products in inventory"),
                         )
@@ -107,9 +142,9 @@ class SalesScrn extends ConsumerWidget {
                           fixedLeftColumns: 1,
                           smRatio: 0.45,
                           onSelectAll: (value) {
-                            // ref
-                            //     .read(itemsToSellNotifierProvider.notifier)
-                            //     .toggleAllSelection(products);
+                            ref
+                                .read(itemsToSellNotifierProvider.notifier)
+                                .toggleAllSelection(products);
                           },
                           columns: [
                             DataColumn2(
@@ -120,7 +155,7 @@ class SalesScrn extends ConsumerWidget {
                             ),
                             DataColumn2(
                               label: Text(
-                                'Qty Sold',
+                                'Stock',
                                 style: context.bodySmall.bold700,
                               ),
                               numeric: true,
@@ -128,67 +163,66 @@ class SalesScrn extends ConsumerWidget {
                             ),
                             DataColumn2(
                               label: Text(
-                                'Selling Price',
+                                'Price',
                                 style: context.bodySmall.bold700,
                               ),
                             ),
                             DataColumn2(
                               label: Text(
-                                'Sold On',
+                                'Expiry Date',
                                 style: context.bodySmall.bold700,
                               ),
                             ),
                           ],
                           rows: [
-                            for (SalesProductModel sale in sales)
+                            for (Product product in products)
                               DataRow(
-                                // selected: selectedItems.contains(product),
-                                // onSelectChanged: !selectableRows
-                                //     ? null
-                                //     : (value) {
-                                //         ref
-                                //             .read(itemsToSellNotifierProvider
-                                //                 .notifier)
-                                //             .toggleSelection(product);
-                                //       },
-                                // onLongPress: () {
-                                //   ref
-                                //       .read(isSelectableRows.notifier)
-                                //       .update((state) => true);
-                                //   ref
-                                //       .read(
-                                //           itemsToSellNotifierProvider.notifier)
-                                //       .toggleSelection(product);
-                                // },
+                                selected: selectedItems.contains(product),
+                                onSelectChanged: !selectableRows
+                                    ? null
+                                    : (value) {
+                                        ref
+                                            .read(itemsToSellNotifierProvider
+                                                .notifier)
+                                            .toggleSelection(product);
+                                      },
+                                onLongPress: () {
+                                  ref
+                                      .read(isSelectableRows.notifier)
+                                      .update((state) => true);
+                                  ref
+                                      .read(
+                                          itemsToSellNotifierProvider.notifier)
+                                      .toggleSelection(product);
+                                },
                                 cells: [
                                   DataCell(
                                     Text(
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,
-                                      sale.product.productName,
+                                      product.productName,
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                     onTap: () {
                                       context.go(
-                                          '/item_details/${sale.product.productId}');
+                                          '/item_details/${product.productId}');
                                     },
                                   ),
                                   DataCell(
                                     Text(
-                                      sale.salesModel.qtySold.toString(),
+                                      product.availableQty.toString(),
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                   ),
                                   DataCell(
                                     Text(
-                                      "XAF ${sale.salesModel.sellingPrice.toInt()}",
+                                      "XAF ${product.sellingPrice.toInt()}",
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                   ),
                                   DataCell(
                                     Text(
-                                      sale.salesModel.dateAdded!
-                                          .dateTimeToString,
+                                      product.expiryDate!.dateToString,
                                       style: context.bodySmall.secondaryColor,
                                     ),
                                   ),
@@ -201,38 +235,6 @@ class SalesScrn extends ConsumerWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class HomeDrawerListTile extends StatelessWidget {
-  const HomeDrawerListTile({
-    super.key,
-    required this.title,
-    this.onTap,
-    required this.icon,
-    this.isSelected = false,
-  });
-  final String title;
-  final Function()? onTap;
-  final IconData icon;
-  final bool isSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      leading: Icon(
-        icon,
-        color: context.colorScheme.onPrimary,
-      ),
-      onTap: onTap,
-      selectedColor: context.colorScheme.onPrimary,
-      selectedTileColor: context.colorScheme.primaryContainer,
-      selected: isSelected,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
       ),
     );
   }

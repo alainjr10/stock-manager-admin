@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:stock_manager_admin/src/features/add_item/presentation/screens/add_item_scrn.dart';
 import 'package:stock_manager_admin/src/features/add_item/presentation/screens/confirm_item_details.dart';
 import 'package:stock_manager_admin/src/features/home/presentation/screens/homescreen.dart';
+import 'package:stock_manager_admin/src/features/inventory/presentation/screens/inventory_scrn.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/screens/product_details.dart';
 import 'package:stock_manager_admin/src/features/inventory/presentation/view_models/inventory_providers.dart';
 import 'package:stock_manager_admin/src/features/sales/presentation/screens/sales_scrn.dart';
@@ -60,10 +61,17 @@ GoRouter router(RouterRef ref) {
             },
           ),
           GoRoute(
-              path: 'sales',
-              builder: (context, state) {
-                return const SalesScrn();
-              })
+            path: 'sales',
+            builder: (context, state) {
+              return const SalesScrn();
+            },
+          ),
+          GoRoute(
+            path: 'inventory',
+            builder: (context, state) {
+              return const InventoryScrn();
+            },
+          ),
         ],
       ),
     ],
