@@ -818,6 +818,22 @@ class _GetTotalProfitsProviderElement
   int get durationCode => (origin as GetTotalProfitsProvider).durationCode;
 }
 
+String _$getInventoryProductNamesHash() =>
+    r'fae8557e745df59cfbff4c8e273dc7e2595b4469';
+
+/// See also [getInventoryProductNames].
+@ProviderFor(getInventoryProductNames)
+final getInventoryProductNamesProvider = FutureProvider<List<String>>.internal(
+  getInventoryProductNames,
+  name: r'getInventoryProductNamesProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getInventoryProductNamesHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef GetInventoryProductNamesRef = FutureProviderRef<List<String>>;
 String _$getProductByIdNotifierHash() =>
     r'8fe7800c88a445c534483856c718678e15ada95d';
 
@@ -1000,5 +1016,40 @@ final itemsToSellNotifierProvider =
 );
 
 typedef _$ItemsToSellNotifier = Notifier<List<Product>>;
+String _$searchProductsNotifierHash() =>
+    r'9f3d7727e952b48283f2e483b22c71743ef3e4f1';
+
+/// See also [SearchProductsNotifier].
+@ProviderFor(SearchProductsNotifier)
+final searchProductsNotifierProvider = AutoDisposeAsyncNotifierProvider<
+    SearchProductsNotifier, List<Product>>.internal(
+  SearchProductsNotifier.new,
+  name: r'searchProductsNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$searchProductsNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SearchProductsNotifier = AutoDisposeAsyncNotifier<List<Product>>;
+String _$searchSalesNotifierHash() =>
+    r'87d35858b08df439b6ceeb63d7eff82a2fc1677c';
+
+/// See also [SearchSalesNotifier].
+@ProviderFor(SearchSalesNotifier)
+final searchSalesNotifierProvider = AutoDisposeAsyncNotifierProvider<
+    SearchSalesNotifier, List<SalesProductModel>>.internal(
+  SearchSalesNotifier.new,
+  name: r'searchSalesNotifierProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$searchSalesNotifierHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SearchSalesNotifier
+    = AutoDisposeAsyncNotifier<List<SalesProductModel>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

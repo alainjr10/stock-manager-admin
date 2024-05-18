@@ -59,6 +59,11 @@ class ConfirmItemDetails extends ConsumerWidget {
                         ),
                         const ItemDetailsTileDivider(),
                         ItemDetailsTile(
+                          label: "Safety Stock",
+                          value: selectedProduct.safetyStock.toString(),
+                        ),
+                        const ItemDetailsTileDivider(),
+                        ItemDetailsTile(
                           label: "Expiry Date",
                           value: selectedProduct.expiryDate!.dateToString,
                         ),

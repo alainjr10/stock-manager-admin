@@ -72,6 +72,10 @@ class CustomInputFormField extends StatelessWidget {
     this.initialValue,
     this.onEditingComplete,
     this.onTap,
+    this.onFieldSubmitted,
+    this.contentPadding,
+    this.onClear,
+    this.focusNode,
   });
 
   final String? Function(String?)? validator;
@@ -84,8 +88,12 @@ class CustomInputFormField extends StatelessWidget {
   final bool enabled;
   final Function()? onEditingComplete;
   final Function()? onTap;
+  final Function(String)? onFieldSubmitted;
 
   final TextEditingController? controller;
+  final EdgeInsetsGeometry? contentPadding;
+  final VoidCallback? onClear;
+  final FocusNode? focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -93,9 +101,11 @@ class CustomInputFormField extends StatelessWidget {
       // title text form field
       controller: controller,
       enabled: enabled,
+      focusNode: focusNode,
       keyboardType: inputType,
       inputFormatters: inputFormatters,
       initialValue: initialValue,
+      onFieldSubmitted: onFieldSubmitted,
       cursorColor: context.colorScheme.secondary,
       decoration: InputDecoration(
         hintText: hintText.toString(),
@@ -112,12 +122,18 @@ class CustomInputFormField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: BorderSide(
-            color: context.colorScheme.onPrimaryContainer,
+            color: context.colorScheme.secondary,
           ),
         ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 16.0,
-          horizontal: 16.0,
+        contentPadding: contentPadding ??
+            const EdgeInsets.symmetric(
+              vertical: 16.0,
+              horizontal: 16.0,
+            ),
+        suffixIcon: IconButton(
+          icon: const Icon(Icons.close),
+          color: context.theme.disabledColor,
+          onPressed: onClear,
         ),
       ),
       // validate field on user interaction

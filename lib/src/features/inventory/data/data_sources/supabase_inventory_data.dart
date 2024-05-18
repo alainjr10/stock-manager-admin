@@ -7,8 +7,11 @@ class SupabaseInventoryData {
   final _supabase = Supabase.instance.client;
   Future<List<Product>> getInventoryProducts() async {
     try {
-      final data =
-          await _supabase.from('inventory').select().count(CountOption.exact);
+      final data = await _supabase
+          .from('inventory')
+          .select()
+          .order('created_at', ascending: false)
+          .count(CountOption.exact);
       final products = data.data.map((e) {
         return Product.fromJson(e);
       }).toList();
@@ -172,6 +175,66 @@ class SupabaseInventoryData {
       return total;
     } catch (e, st) {
       'error getting total profit: $e: stacktrace: $st'.log();
+      rethrow;
+    }
+  }
+
+  Future<List<String>> getInventoryProductNames() async {
+    try {
+      final data = await _supabase
+          .from('inventory')
+          .select('product_name')
+          .eq('is_active', true);
+      final products = data.map((e) {
+        return (e['product_name'] as String).toLowerCase();
+      }).toList();
+      return products;
+    } catch (e, st) {
+      'error getting inventory product names: $e: stacktrace: $st'.log();
+      rethrow;
+    }
+  }
+
+  Future<List<Product>> searchProducts(
+      String query, bool searchFullText) async {
+    try {
+      query = searchFullText ? query : query.toSupabasePhaseQuery;
+      final data = await _supabase.from('inventory').select().textSearch(
+            'product_name',
+            "'$query'",
+            type: TextSearchType.websearch,
+          );
+      final products = data.map((e) {
+        return Product.fromJson(e);
+      }).toList();
+      // 'searched prods has lenth: ${products.length}'.log();
+      return products;
+    } catch (e, st) {
+      'error searching products: $e: stacktrace: $st'.log();
+      rethrow;
+    }
+  }
+
+  // search sales table based on product name where product_name is a column in the inventory table and we have a foreign key linking both tables
+  Future<List<SalesProductModel>> searchSales(
+      String query, bool searchFullText) async {
+    try {
+      query = searchFullText ? query : query.toSupabasePhaseQuery;
+      final data = await _supabase
+          .from('sales')
+          .select('*, inventory!inner(*)')
+          .textSearch('inventory.product_name', "'$query'");
+      final sales = data.map((e) {
+        final sales = SalesModel.fromJson(e);
+        final product = Product.fromJson(e['inventory']);
+        return SalesProductModel(
+          salesModel: sales,
+          product: product,
+        );
+      }).toList();
+      return sales;
+    } catch (e, st) {
+      'error searching sales: $e: stacktrace: $st'.log();
       rethrow;
     }
   }

@@ -24,9 +24,16 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
   final _sellingPriceController = TextEditingController();
   // final  _productBrandController = TextEditingController();
   final _quantityController = TextEditingController();
+  final _safetyStockController = TextEditingController(text: "5");
   final _expiryDateController = TextEditingController();
-  DateTime? _expiryDate;
+  DateTime _expiryDate = DateTime(2040);
   final uuid = const Uuid();
+  @override
+  void initState() {
+    super.initState();
+    _expiryDateController.text = _expiryDate.dateToString;
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -155,6 +162,16 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                         ],
                       ),
                       16.vGap,
+                      CustomInputField(
+                        controller: _safetyStockController,
+                        mainLabel: "Safety stock",
+                        hintText: "Input safety stock",
+                        inputType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
+                      ),
+                      16.vGap,
                       // Add expiry date that uses a datepicker
                       GestureDetector(
                         onTap: () {
@@ -198,6 +215,7 @@ class _AddItemScreenState extends ConsumerState<AddItemScreen> {
                       costPrice: int.parse(_costPriceController.text),
                       sellingPrice: int.parse(_sellingPriceController.text),
                       availableQty: int.parse(_quantityController.text),
+                      safetyStock: int.parse(_safetyStockController.text),
                       imageUrl: "",
                       expiryDate: _expiryDate,
                       dateAdded: DateTime.now(),
